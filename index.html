@@ -1,58 +1,491 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的個人作品集 | 你的姓名</title>
+    <title>數位科技概論學習作品集</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #333; background-color: #f4f4f4; }
-        header { background: #2c3e50; color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 4px solid #18bc9c; }
-        header h1 { margin: 0; font-size: 2.5em; }
-        header p { font-size: 1.2em; font-weight: 300; opacity: 0.9; }
-        .container { max-width: 800px; margin: 20px auto; padding: 0 20px; }
-        section { background: white; padding: 30px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h2 { color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; }
-        .project-card { border: 1px solid #ecf0f1; padding: 15px; margin-bottom: 15px; border-radius: 5px; border-left: 4px solid #18bc9c; }
-        .project-card h3 { margin-top: 0; color: #34495e; }
-        footer { text-align: center; padding: 20px; background: #2c3e50; color: white; margin-top: 40px; }
+        /* ==========================================
+           全域變數與基本設定 (Reset & CSS Variables)
+           ========================================== */
+        :root {
+            --bg-color: #f7f5ef;          /* 米白背景 */
+            --card-bg: #ffffff;           /* 卡片純白背景 */
+            --primary-color: #1b4332;      /* 深綠標題與主色 */
+            --primary-hover: #2d6a4f;      /* 懸停綠色 */
+            --text-color: #2b2d42;         /* 深灰本文內文 */
+            --muted-text: #5c677d;        /* 次要說明文字 */
+            --border-color: #e2ded4;      /* 柔和邊框 */
+            --accent-bg: #e8f5e9;         /* 準備中標籤背景 (淺綠) */
+            --accent-text: #1b4332;       /* 準備中標籤文字 (深綠) */
+            --focus-ring: #2d6a4f;        /* 鍵盤焦點外框 */
+            --shadow-sm: 0 2px 8px rgba(27, 67, 50, 0.05);
+            --shadow-md: 0 4px 16px rgba(27, 67, 50, 0.08);
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 1rem;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* 鍵盤焦點可見性 (Accessibility) */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* ==========================================
+           頁首與導覽列 (Header & Navigation)
+           ========================================== */
+        .site-header {
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .site-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 1.25rem;
+            list-style: none;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .main-nav a:hover {
+            color: var(--primary-color);
+            background-color: rgba(27, 67, 50, 0.05);
+        }
+
+        /* ==========================================
+           主要內容區域 (Main Content & Sections)
+           ========================================== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 標題層級與樣式 */
+        h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* 首頁主視覺區 (Hero Section) */
+        .hero-section {
+            text-align: center;
+            padding: 3.5rem 2rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f0ede6 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: var(--muted-text);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero-quote {
+            background-color: var(--bg-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.25rem 1.5rem;
+            margin: 0 auto;
+            max-width: 650px;
+            text-align: left;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            font-size: 1.05rem;
+            color: var(--text-color);
+        }
+
+        /* 關於我區塊 (About Section) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .about-card {
+            background-color: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .interest-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            list-style: none;
+        }
+
+        .tag {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* 作品區塊 (Projects Section) */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            background-color: var(--card-bg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .badge-status {
+            background-color: var(--accent-bg);
+            color: var(--accent-text);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            border: 1px solid rgba(27, 67, 50, 0.2);
+            white-space: nowrap;
+        }
+
+        .project-desc {
+            color: var(--muted-text);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-meta {
+            font-size: 0.85rem;
+            color: var(--muted-text);
+            border-top: 1px dashed var(--border-color);
+            padding-top: 0.75rem;
+            margin-top: auto;
+        }
+
+        /* 學習目標區塊 (Goals Section) */
+        .goals-list {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background-color: var(--bg-color);
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .goal-number {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .goal-content h3 {
+            margin-bottom: 0.25rem;
+            font-size: 1.05rem;
+        }
+
+        .goal-content p {
+            font-size: 0.95rem;
+            color: var(--muted-text);
+        }
+
+        /* ==========================================
+           頁尾 (Footer)
+           ========================================== */
+        .site-footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--muted-text);
+            font-size: 0.9rem;
+            background-color: #ffffff;
+            margin-top: 3rem;
+        }
+
+        /* ==========================================
+           響應式設計 (Responsive Design)
+           ========================================== */
+        @media (max-width: 640px) {
+            .site-header {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .main-nav {
+                gap: 0.5rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .hero-section {
+                padding: 2rem 1.25rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>[你的名字] 的個人作品集</h1>
-        <p>夢想成為頂尖的 [你的目標職業，例如：軟體工程師 / 網頁設計師]</p>
+    <!-- 頂部導覽列 -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="#hero" class="site-title">數位科技概論作品集</a>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="#about">關於我</a></li>
+                    <li><a href="#projects">作品區</a></li>
+                    <li><a href="#goals">學習目標</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <div class="container">
-        <section id="about">
-            <h2>👨‍💻 關於我 (About Me)</h2>
-            <p>你好！我是 [你的名字]，目前就讀於 [你的大學] 一年級。我對 [你的興趣/專業領域] 充滿熱情。這個網站是我的起點，我會在這裡記錄大學四年的學習軌跡與作品，朝著我的夢想前進！</p>
-        </section>
+    <!-- 主要內容區 -->
+    <main class="container">
 
-        <section id="projects">
-            <h2>🚀 專案作品 (Projects)</h2>
-            
-            <div class="project-card">
-                <h3>作品一：[你預計要做的專案，例如：個人記帳 APP]</h3>
-                <p>【狀態：大一規劃中】這是我接下來預計要完成的專案，目前正在學習相關技術中，敬請期待。</p>
-            </div>
-
-            <div class="project-card">
-                <h3>作品二：[未來目標，例如：AI 影像辨識系統]</h3>
-                <p>【狀態：未來目標】這是我為大學專題或未來設定的高階目標，我會一步步累積實力來完成它。</p>
+        <!-- 首頁 Banner 與一句介紹 -->
+        <section id="hero" class="hero-section">
+            <h1>數位科技概論學習作品集</h1>
+            <p class="hero-tagline">大一學生學習成果與數位探索歷程</p>
+            <div class="hero-quote">
+                <strong>自我介紹：</strong>我熱衷於探索數位科技與多媒體應用的結合，希望透過程式設計與互動設計創造有趣的學習體驗。
             </div>
         </section>
 
-        <section id="contact">
-            <h2>📧 聯絡我 (Contact)</h2>
-            <p>Email: your.email@example.com</p>
-            <p>GitHub: <a href="#" style="color: #18bc9c;">https://github.com/[你的帳號]</a></p>
+        <!-- 關於我與學習興趣區塊 -->
+        <section id="about" class="section">
+            <h2>關於我與學習興趣</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>關於我</h3>
+                    <p>大家好！我是大一學生。這是專門用來展示「數位科技概論」課程學習成果的個人網站。在這個快速變革的數位時代，我渴望學習並實踐各種科技知識。</p>
+                </div>
+                <div class="about-card">
+                    <h3>學習興趣</h3>
+                    <p>我對網頁前端開發、數位媒材設計以及互動式體驗開發充滿興趣。希望將課堂所學應用於實際專案中。</p>
+                    <ul class="interest-tags">
+                        <li class="tag">HTML/CSS 網頁設計</li>
+                        <li class="tag">數位媒材整合</li>
+                        <li class="tag">資訊視覺化</li>
+                        <li class="tag">使用者體驗 (UX)</li>
+                    </ul>
+                </div>
+            </div>
         </section>
-    </div>
 
-    <footer>
-        <p>版權所有 &copy; 2026 [你的名字] | 這是我的大一初體驗</p>
+        <!-- 作品區塊 (期中與期末作品，標示準備中) -->
+        <section id="projects" class="section">
+            <h2>作品區</h2>
+            <div class="projects-grid">
+                
+                <!-- 期中作品 -->
+                <article class="project-card">
+                    <div>
+                        <div class="project-header">
+                            <h3>期中專案：數位媒體專題</h3>
+                            <span class="badge-status">準備中</span>
+                        </div>
+                        <p class="project-desc">
+                            本專案將結合多媒體元素與網頁排版技術，針對特定主題進行資訊整理與視覺化呈現。
+                        </p>
+                    </div>
+                    <div class="project-meta">
+                        預計完成時間：學期第 9 週
+                    </div>
+                </article>
+
+                <!-- 期末作品 -->
+                <article class="project-card">
+                    <div>
+                        <div class="project-header">
+                            <h3>期末專案：互動式主題網站</h3>
+                            <span class="badge-status">準備中</span>
+                        </div>
+                        <p class="project-desc">
+                            綜合全學期所學之數位科技概論知識，建構具備良好體驗與豐富內容的完整專題網站。
+                        </p>
+                    </div>
+                    <div class="project-meta">
+                        預計完成時間：學期第 18 週
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- 學習目標區塊 -->
+        <section id="goals" class="section">
+            <h2>學習目標</h2>
+            <ol class="goals-list">
+                <li class="goal-item">
+                    <div class="goal-number">1</div>
+                    <div class="goal-content">
+                        <h3>掌握網頁基礎結構與樣式</h3>
+                        <p>熟練運用語意化 HTML 標籤與 CSS 排版技巧，建立結構清晰、易於維護的網頁頁面。</p>
+                    </div>
+                </li>
+                <li class="goal-item">
+                    <div class="goal-number">2</div>
+                    <div class="goal-content">
+                        <h3>理解數位科技趨勢與應用</h3>
+                        <p>深入探索當前數位科技發展趨勢，並學習如何將理論知識轉化為實際的作品發表。</p>
+                    </div>
+                </li>
+                <li class="goal-item">
+                    <div class="goal-number">3</div>
+                    <div class="goal-content">
+                        <h3>培養跨領域數位解決方案能力</h3>
+                        <p>透過專案實作累積作品集，提升邏輯思考、設計美學與技術整合的綜合實力。</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="site-footer">
+        <p>© 2026 數位科技概論學習作品集 | 保留所有權利</p>
     </footer>
 
 </body>

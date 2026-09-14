@@ -16,8 +16,8 @@
             --text-color: #2b2d42;         /* 深灰本文內文 */
             --muted-text: #5c677d;        /* 次要說明文字 */
             --border-color: #e2ded4;      /* 柔和邊框 */
-            --accent-bg: #e8f5e9;         /* 準備中標籤背景 (淺綠) */
-            --accent-text: #1b4332;       /* 準備中標籤文字 (深綠) */
+            --accent-bg: #e8f5e9;         /* 標籤背景 (淺綠) */
+            --accent-text: #1b4332;       /* 標籤文字 (深綠) */
             --focus-ring: #2d6a4f;        /* 鍵盤焦點外框 */
             --shadow-sm: 0 2px 8px rgba(27, 67, 50, 0.05);
             --shadow-md: 0 4px 16px rgba(27, 67, 50, 0.08);
@@ -124,7 +124,6 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* 標題層級與樣式 */
         h1 {
             font-size: 2rem;
             color: var(--primary-color);
@@ -149,7 +148,7 @@
             margin-bottom: 0.5rem;
         }
 
-        /* 首頁主視覺區 (Hero Section) */
+        /* 首頁主視覺區 */
         .hero-section {
             text-align: center;
             padding: 3.5rem 2rem;
@@ -179,7 +178,7 @@
             color: var(--text-color);
         }
 
-        /* 關於我區塊 (About Section) */
+        /* 關於我區塊 */
         .about-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -212,7 +211,7 @@
             font-weight: 500;
         }
 
-        /* 作品區塊 (Projects Section) */
+        /* 作品區塊 */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -257,7 +256,26 @@
         .project-desc {
             color: var(--muted-text);
             font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.1s ease;
             margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .btn-link:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         .project-meta {
@@ -268,7 +286,7 @@
             margin-top: auto;
         }
 
-        /* 學習目標區塊 (Goals Section) */
+        /* 學習目標區塊 */
         .goals-list {
             list-style: none;
             display: grid;
@@ -309,9 +327,7 @@
             color: var(--muted-text);
         }
 
-        /* ==========================================
-           頁尾 (Footer)
-           ========================================== */
+        /* 頁尾 */
         .site-footer {
             text-align: center;
             padding: 2rem 1.5rem;
@@ -322,9 +338,6 @@
             margin-top: 3rem;
         }
 
-        /* ==========================================
-           響應式設計 (Responsive Design)
-           ========================================== */
         @media (max-width: 640px) {
             .site-header {
                 padding: 0.75rem 1rem;
@@ -369,12 +382,13 @@
     <!-- 頂部導覽列 -->
     <header class="site-header">
         <div class="nav-container">
-            <a href="#hero" class="site-title">數位科技概論作品集</a>
+            <a href="index.html#hero" class="site-title">數位科技概論作品集</a>
             <nav>
                 <ul class="main-nav">
-                    <li><a href="#about">關於我</a></li>
-                    <li><a href="#projects">作品區</a></li>
-                    <li><a href="#goals">學習目標</a></li>
+                    <li><a href="index.html#about">關於我</a></li>
+                    <li><a href="index.html#projects">作品區</a></li>
+                    <li><a href="assignments.html">作業細項頁</a></li>
+                    <li><a href="index.html#goals">學習目標</a></li>
                 </ul>
             </nav>
         </div>
@@ -383,7 +397,7 @@
     <!-- 主要內容區 -->
     <main class="container">
 
-        <!-- 首頁 Banner 與一句介紹 -->
+        <!-- 首頁 Banner 與自我介紹 -->
         <section id="hero" class="hero-section">
             <h1>數位科技概論學習作品集</h1>
             <p class="hero-tagline">大一學生學習成果與數位探索歷程</p>
@@ -413,11 +427,28 @@
             </div>
         </section>
 
-        <!-- 作品區塊 (期中與期末作品，標示準備中) -->
+        <!-- 作品區塊 -->
         <section id="projects" class="section">
             <h2>作品區</h2>
             <div class="projects-grid">
                 
+                <!-- 數位科技概論作品卡片（可跳轉至 assignments.html） -->
+                <article class="project-card">
+                    <div>
+                        <div class="project-header">
+                            <h3>數位科技概論：課程實作與作業集</h3>
+                            <span class="badge-status">已完成</span>
+                        </div>
+                        <p class="project-desc">
+                            涵蓋 HTML 語意化標籤（文字層級、影音多媒體、清單表格、表單元件）與 CSS 視覺排版、Flexbox/Grid 版型、RWD 及 WAVE 無障礙網檢實測。
+                        </p>
+                        <a href="assignments.html" class="btn-link">點擊進入查看 9 大實作細項 →</a>
+                    </div>
+                    <div class="project-meta">
+                        完成時間：學期第 2 週
+                    </div>
+                </article>
+
                 <!-- 期中作品 -->
                 <article class="project-card">
                     <div>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數位科技概論 - 實作作業細項列表</title>
+    <style>
+        /* ==========================================
+           全域變數與基本設定
+           ========================================== */
+        :root {
+            --bg-color: #f7f5ef;
+            --card-bg: #ffffff;
+            --primary-color: #1b4332;
+            --primary-hover: #2d6a4f;
+            --text-color: #2b2d42;
+            --muted-text: #5c677d;
+            --border-color: #e2ded4;
+            --accent-bg: #e8f5e9;
+            --accent-text: #1b4332;
+            --focus-ring: #2d6a4f;
+            --shadow-sm: 0 2px 8px rgba(27, 67, 50, 0.05);
+            --shadow-md: 0 4px 16px rgba(27, 67, 50, 0.08);
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        a:focus-visible, summary:focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* 頂部導覽列 */
+        .site-header {
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            background-color: var(--accent-bg);
+            transition: background-color 0.2s ease;
+        }
+
+        .back-link:hover {
+            background-color: #d8ebd9;
+        }
+
+        /* 主內容區容器 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .page-header {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .page-header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--muted-text);
+        }
+
+        /* 作業列表 Grid */
+        .assignments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* 可展開/折疊的卡片元件 (Details/Summary) */
+        .assignment-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .assignment-card[open] {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .assignment-summary {
+            padding: 1.5rem;
+            cursor: pointer;
+            list-style: none;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .assignment-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .assignment-title-group h3 {
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .assignment-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            background-color: var(--accent-bg);
+            color: var(--accent-text);
+            white-space: nowrap;
+        }
+
+        .toggle-icon {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            transition: transform 0.2s ease;
+            margin-top: 0.25rem;
+        }
+
+        .assignment-card[open] .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .assignment-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            border-top: 1px dashed var(--border-color);
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .assignment-content ul {
+            padding-left: 1.25rem;
+            margin: 0.75rem 0;
+            color: var(--text-color);
+        }
+
+        .assignment-content li {
+            margin-bottom: 0.4rem;
+        }
+
+        .file-format {
+            background-color: var(--bg-color);
+            border-left: 3px solid var(--primary-color);
+            padding: 0.5rem 0.8rem;
+            font-size: 0.875rem;
+            color: var(--muted-text);
+            margin-top: 0.75rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .file-format code {
+            background-color: #ffffff;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            color: var(--primary-color);
+            font-family: monospace;
+        }
+
+        /* 頁尾 */
+        .site-footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--muted-text);
+            font-size: 0.9rem;
+            background-color: #ffffff;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            .page-header {
+                padding: 1.5rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="index.html" class="site-title">數位科技概論作品集</a>
+            <a href="index.html" class="back-link">← 返回首頁</a>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="container">
+
+        <!-- 頁面標題說明 -->
+        <header class="page-header">
+            <h1>課程實作與作業細項 (活動 01～09)</h1>
+            <p>點擊下方任一作業卡片，即可展開查看詳細的學習學習重點、HTML/CSS 標籤應用與繳交檔案規範。</p>
+        </header>
+
+        <!-- 作業細項卡片列表 -->
+        <div class="assignments-grid">
+
+            <!-- 活動 01 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 01：HTML 文字層級標記</h3>
+                        <span class="assignment-badge">HTML 基礎</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>練習使用 HTML 語意化文字標籤建立良好的文件層級結構。</p>
+                    <ul>
+                        <li>使用 <code>&lt;h1&gt;</code>～<code>&lt;h3&gt;</code> 標題層級標籤</li>
+                        <li>運用 <code>&lt;b&gt;</code> 粗體與 <code>&lt;i&gt;</code> 斜體進行重點強調</li>
+                        <li>運用 <code>&lt;sub&gt;</code>（下標）與 <code>&lt;sup&gt;</code>（上標）標記特殊文字</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>01-html-text-學號.html</code>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 02 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 02：影音多媒體嵌入與圖片格式</h3>
+                        <span class="assignment-badge">多媒體應用</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>整合多元媒體元素，並理解網頁圖檔格式的特性與選用時機。</p>
+                    <ul>
+                        <li>嵌入圖片 <code>&lt;img&gt;</code>（設定 <code>alt</code> 替代文字與 <code>width</code> 尺寸）</li>
+                        <li>比較照片 JPG、透明圖 PNG 及向量圖 SVG 的差異</li>
+                        <li>加入 <code>&lt;audio&gt;</code> 與 <code>&lt;video&gt;</code> 多媒體播放控制項 (<code>controls</code>)</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>02-html-media-學號.zip</code>（含媒體資料夾）
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 03 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 03：結構化清單與表格設計</h3>
+                        <span class="assignment-badge">資料結構化</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>將資料進行邏輯化呈現，打造易讀的無序/有序清單與表格結構。</p>
+                    <ul>
+                        <li>使用 <code>&lt;ul&gt;</code>（無序清單）與 <code>&lt;ol&gt;</code>（項目編號清單）</li>
+                        <li>建立 <code>&lt;table&gt;</code> 表格結構，包含 <code>&lt;caption&gt;</code> 標題說明</li>
+                        <li>運用 <code>&lt;tr&gt;</code>、<code>&lt;th&gt;</code>（表頭）與 <code>&lt;td&gt;</code>（資料格）呈現數據</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>03-html-plan-學號.html</code>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 04 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 04：互動表單元件實作</h3>
+                        <span class="assignment-badge">互動介面</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>設計使用者輸入介面，學習各種常見的網頁表單控制項。</p>
+                    <ul>
+                        <li><code>&lt;input type="text"&gt;</code> 單行文字輸入框與按鈕</li>
+                        <li><code>&lt;select&gt;</code> / <code>&lt;option&gt;</code> 下拉選單設計</li>
+                        <li><code>&lt;input type="radio"&gt;</code> 單選群組與 <code>checkbox</code> 複選框</li>
+                        <li><code>&lt;textarea&gt;</code> 多行文字輸入區域</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>04-html-form-學號.html</code>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 05 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 05：CSS 視覺風格與盒子模型</h3>
+                        <span class="assignment-badge">CSS 風格</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>調整網頁視覺色彩與 Box Model 間距參數。</p>
+                    <ul>
+                        <li>色彩設定（Hex 色碼如 <code>#1b4332</code>）與文字樣式</li>
+                        <li>控制 <code>padding</code>（內距）、<code>margin</code>（外距）與 <code>border</code></li>
+                        <li>運用 <code>border-radius</code> 設定卡片與按鈕的圓角效果</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>CSS-05-學號.zip</code>（含修改說明.txt）
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 06 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 06：Grid 整頁版型切換</h3>
+                        <span class="assignment-badge">網頁排版</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>運用 CSS Grid 網格系統構建現代化頁面版型。</p>
+                    <ul>
+                        <li>單欄版型 A（簡潔集中）</li>
+                        <li>雙欄版型 B 與三欄版型 C（多欄位資訊對齊）</li>
+                        <li>側欄與主內容版型 D（經典網站版面構架）</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>CSS-06-學號.zip</code>（含修改說明.txt）
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 07 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 07：Flexbox 卡片排列與圖片裁切</h3>
+                        <span class="assignment-badge">卡片排版</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>使用 Flexbox 實現對齊卡片與圖片比例控制。</p>
+                    <ul>
+                        <li><code>align-items: stretch</code> 與 <code>gap</code> 間距調整</li>
+                        <li>運用 <code>object-fit: cover / contain</code> 避免圖片失真拉伸</li>
+                        <li>彈性長度的圖文混合卡片佈局</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>CSS-07-學號.zip</code>（含 images 資料夾）
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 08 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 08：RWD 響應式網頁設計</h3>
+                        <span class="assignment-badge">跨裝置適應</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>針對行動裝置與桌面螢幕進行彈性調整。</p>
+                    <ul>
+                        <li>使用 <code>@media</code> 媒體查詢（如寬度 600px 以下切換為單欄）</li>
+                        <li>設定流體圖片與寬度（<code>max-width: 100%</code>）</li>
+                        <li>無障礙導覽列在手機版上的直排調整</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>CSS-08-學號.zip</code>（含修改說明.txt）
+                    </div>
+                </div>
+            </details>
+
+            <!-- 活動 09 -->
+            <details class="assignment-card">
+                <summary class="assignment-summary">
+                    <div class="assignment-title-group">
+                        <h3>活動 09：WAVE 無障礙檢測與優化</h3>
+                        <span class="assignment-badge">無障礙網檢</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </summary>
+                <div class="assignment-content">
+                    <p>優化網站可存取性，確保所有人皆能順暢閱讀與操作。</p>
+                    <ul>
+                        <li>使用 WAVE 工具檢測色彩對比度（目標至少 4.5:1）</li>
+                        <li>補齊表單 <code>&lt;label&gt;</code> 標籤的 `for` 屬性關聯</li>
+                        <li>設定鍵盤游標焦點樣式 (<code>:focus-visible</code>)</li>
+                    </ul>
+                    <div class="file-format">
+                        繳交檔名：<code>CSS-09-學號.zip</code>（含修改說明.txt）
+                    </div>
+                </div>
+            </details>
+
+        </div>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="site-footer">
+        <p>© 2026 數位科技概論學習作品集 | 保留所有權利</p>
+    </footer>
+
+</body>
+</html>

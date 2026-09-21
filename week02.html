@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>數位科技概論作品集｜第二週學習紀錄</title>
+<style>
+  :root {
+    --bg: #faf6f0;
+    --panel: #f1e9dd;
+    --text: #2e2a25;
+    --muted: #6b6255;
+    --accent: #176e37;
+    --accent-light: #e3efe6;
+    --border: #ddd2bf;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.7;
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  a:focus,
+  summary:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  header.page-header {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 20px;
+  }
+
+  .wrap {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  header.page-header h1 {
+    color: var(--accent);
+    font-size: clamp(1.5rem, 5vw, 2.1rem);
+    margin: 0 0 8px;
+  }
+
+  header.page-header p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  .intro-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+  }
+
+  h2 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent-light);
+    padding-bottom: 8px;
+    font-size: 1.3rem;
+    margin-top: 40px;
+  }
+
+  details {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px 20px;
+    margin-bottom: 14px;
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 14px 0;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::before {
+    content: "▸ ";
+    color: var(--accent);
+  }
+
+  details[open] summary::before {
+    content: "▾ ";
+  }
+
+  details[open] summary {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-body {
+    padding: 14px 0 18px;
+  }
+
+  .detail-body p {
+    margin: 0 0 10px;
+  }
+
+  .detail-body .file-tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.9rem;
+    font-family: monospace;
+  }
+
+  .status-line {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 24px 20px 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← 回到作品集首頁</a>
+    <h1>數位科技概論作品集</h1>
+    <p>第二週學習紀錄．GitHub 檔案取回與更新、HTML 活動 01–04、CSS 活動 05–09</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="intro-box">
+    <p>這一週先從自己上週上傳到 GitHub 的作品集取回檔案，練習修改 HTML 內容與結構，再進一步用 CSS 調整外觀與版面。下面每個項目點一下標題就能展開看細項，內容是我對本週講義的學習整理。</p>
+  </div>
+
+  <h2>一、GitHub 檔案取回與更新</h2>
+  <details>
+    <summary>從自己的儲存庫下載檔案、修改後再上傳</summary>
+    <div class="detail-body">
+      <p>用 Download ZIP 把上週的作品集下載下來解壓縮，分別用瀏覽器和文字編輯器開啟同一份 index.html，一邊看畫面一邊改內容。</p>
+      <p>修改完成後，回到原本的儲存庫，用 Upload files 把 index.html（以及新增的圖片、CSS 等資源）依照原本的路徑重新上傳，填寫修改說明並完成 Commit，最後回到公開網址確認畫面已經更新。</p>
+      <p class="status-line">重點提醒：上傳時不要把外層資料夾一起拖進去，也不要上傳 ZIP 壓縮檔本身，否則首頁會找不到。</p>
+    </div>
+  </details>
+
+  <h2>二、HTML 活動 01–04</h2>
+
+  <details>
+    <summary>活動 01｜把小站變成我的（文字層級）</summary>
+    <div class="detail-body">
+      <p>練習標題層級（h1、h2、h3）、粗體 <span class="file-tag">&lt;b&gt;</span>、斜體 <span class="file-tag">&lt;i&gt;</span>、上下標 <span class="file-tag">&lt;sub&gt;/&lt;sup&gt;</span> 的用法，並把範例網站改成自己的介紹內容。</p>
+      <p>小作業：把一段沒有標籤的科學活動文字，依照角色分派成正確的標題層級與段落，並標記需要粗體、斜體、上下標的地方。</p>
+      <p class="status-line">作業檔名：<span class="file-tag">01-html-text-學號.html</span></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 02｜讓小站有聲有影（多媒體）</summary>
+    <div class="detail-body">
+      <p>練習 <span class="file-tag">&lt;img&gt;</span>、<span class="file-tag">&lt;audio&gt;</span>、<span class="file-tag">&lt;video&gt;</span> 的 src、alt、controls、width、loop 等屬性，並比較 JPG、PNG、SVG 三種圖片格式的差異。</p>
+      <p>小作業：製作一張「看、聽、觀察」任務卡，放入葉片圖片、提示音與花朵短片，媒體皆由使用者自行按下播放，不自動播放或循環。</p>
+      <p class="status-line">作業檔名：<span class="file-tag">02-html-media-學號.html</span>（需與 media-02 資料夾一起壓縮成 zip 繳交）</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 03｜整理我的學習計畫（清單與表格）</summary>
+    <div class="detail-body">
+      <p>練習 <span class="file-tag">&lt;ul&gt;/&lt;ol&gt;/&lt;li&gt;</span> 清單，以及 <span class="file-tag">&lt;table&gt;/&lt;tr&gt;/&lt;th&gt;/&lt;td&gt;</span> 表格的資料對應關係。</p>
+      <p>小作業：替國小社團整理活動準備頁，材料用不強調順序的清單、步驟用有順序的清單，小組分工整理成表格，並自己新增一筆合理的分工資料。</p>
+      <p class="status-line">作業檔名：<span class="file-tag">03-html-plan-學號.html</span></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 04｜設計一張活動報名表（表單元件）</summary>
+    <div class="detail-body">
+      <p>練習 <span class="file-tag">&lt;label&gt;</span>、單行文字輸入、下拉選單、單選按鈕、複選方塊與多行留言框，並理解 <span class="file-tag">disabled</span> 按鈕不會送出或保存資料。</p>
+      <p>小作業：設計一張放學後社團體驗表，包含暱稱欄位、社團下拉選單、日期單選、活動方式複選，並自行新增一個合理的欄位。</p>
+      <p class="status-line">作業檔名：<span class="file-tag">04-html-form-學號.html</span></p>
+    </div>
+  </details>
+
+  <h2>三、CSS 活動 05–09</h2>
+
+  <details>
+    <summary>活動 05｜同一份內容，換一種風格</summary>
+    <div class="detail-body">
+      <p>用色彩實驗室練習挑選色碼，並修改標題顏色、重點文字顏色、卡片的留白（padding／margin）、圓角與內文字體大小、行高，觀察同一份 HTML 在不同 CSS 下的視覺差異。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 06｜我的網站適合哪種版型</summary>
+    <div class="detail-body">
+      <p>比較單欄、兩欄、三欄、側欄＋主內容四種版型的區域關係與適合用途，並練習調整導覽欄寬度，理解 <span class="file-tag">fr</span> 單位如何分配剩餘空間。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 07｜把內容排得整齊</summary>
+    <div class="detail-body">
+      <p>用 <span class="file-tag">display: flex</span> 讓多張作品卡片間距一致、同排等高，並比較 <span class="file-tag">object-fit: cover</span> 與 <span class="file-tag">contain</span> 兩種圖片裁切方式的差異。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 08｜從電腦版變成手機版</summary>
+    <div class="detail-body">
+      <p>把固定寬度改成 <span class="file-tag">width: 100%; max-width: ...</span>，並用 <span class="file-tag">@media (max-width: 600px)</span> 讓卡片在小螢幕變成單欄排列，確認寬螢幕與窄螢幕畫面都正常、沒有橫向捲動。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>活動 09｜先機檢，再修正無障礙問題</summary>
+    <div class="detail-body">
+      <p>使用 WAVE 工具檢查網頁，找出文字對比不足與表單缺少標籤兩個問題並手動修正，再檢查鍵盤 Tab 焦點是否清楚可見、狀態是否不只靠顏色傳達，以及放大 200% 後版面是否仍可正常閱讀。</p>
+    </div>
+  </details>
+
+  <h2>學習紀錄</h2>
+  <div class="intro-box">
+    <p>本週練習只使用 HTML 與 CSS，沒有加入 JavaScript 或套件。五個 CSS 活動都完成觀察後，我會從中選一個案例做進一步修改，作為這階段的統一作業。</p>
+  </div>
+
+</main>
+
+<footer>
+  <p>本頁以 HTML＋CSS 製作（<code>&lt;details&gt;</code> 元件），無 JavaScript，作為數位科技概論課程學習紀錄。</p>
+</footer>
+
+</body>
+</html>

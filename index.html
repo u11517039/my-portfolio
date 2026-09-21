@@ -162,6 +162,26 @@
     margin-bottom: 10px;
   }
 
+  .status-tag--done {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .work-card--active {
+    border-color: var(--accent);
+  }
+
+  .card-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .card-link:hover {
+    text-decoration: underline;
+  }
+
   ul.goal-list {
     padding-left: 20px;
   }
@@ -231,6 +251,12 @@
   <section id="works">
     <h2>作品區</h2>
     <div class="work-grid">
+      <div class="work-card work-card--active">
+        <span class="status-tag status-tag--done">進行中</span>
+        <h3>數位科技概論作品集</h3>
+        <p>第二週開始的 HTML 與 CSS 練習紀錄，包含 GitHub 檔案取回與更新、活動 01–09 的學習重點。</p>
+        <a class="card-link" href="week02.html">查看細項 →</a>
+      </div>
       <div class="work-card">
         <span class="status-tag">準備中</span>
         <h3>期中作品</h3>

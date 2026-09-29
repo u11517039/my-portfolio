@@ -38,6 +38,31 @@ h2{font-size:1.6rem;margin-bottom:24px}
 .tag{display:inline-block;margin:12px 6px 0 0;padding:2px 10px;border:1px solid var(--line);border-radius:99px;font-size:.8rem;color:var(--muted)}
 .skills{display:flex;flex-wrap:wrap;gap:10px;list-style:none}
 .skills li{padding:6px 16px;background:var(--card);border:1px solid var(--line);border-radius:99px}
+button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%;display:block}
+button.card:hover{border-color:var(--accent)}
+.bar{height:8px;background:var(--line);border-radius:99px;margin-top:14px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+dialog{width:min(920px,94vw);max-height:90vh;margin:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:0;overflow:auto}
+dialog::backdrop{background:rgba(10,15,30,.6)}
+.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px 24px;border-bottom:1px solid var(--line)}
+.dhead h3{font-size:1.3rem}
+.dhead p{color:var(--muted);font-size:.9rem}
+.x{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:6px 14px;cursor:pointer;font:inherit}
+.dbody{display:grid;grid-template-columns:230px 1fr;min-height:380px}
+.acts{list-style:none;border-right:1px solid var(--line)}
+.acts button{width:100%;text-align:left;padding:12px 16px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:inherit;cursor:pointer}
+.acts button[aria-selected="true"]{background:var(--card);color:var(--accent);font-weight:700}
+.acts small{display:block;color:var(--muted);font-weight:400}
+.pane{padding:22px 24px}
+.pane h4{font-size:1.15rem;margin-bottom:8px}
+.pane p,.pane li{color:var(--muted);font-size:.95rem}
+.pane ul{margin:8px 0 14px 20px}
+.pane code{background:var(--card);border:1px solid var(--line);padding:1px 6px;border-radius:4px;font-size:.85rem;color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0;align-items:center}
+.row .btn{margin:0;padding:8px 18px;border:0;cursor:pointer;font:inherit;font-weight:700}
+.row label{cursor:pointer}
+iframe{width:100%;height:340px;border:1px solid var(--line);border-radius:6px;background:#fff;margin-top:6px}
+@media(max-width:700px){.dbody{grid-template-columns:1fr}.acts{border-right:0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr)}.acts small{display:none}}
 footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
 @media(max-width:560px){nav a{margin-left:12px}.hero{padding:56px 0 48px}}
 </style>
@@ -75,11 +100,13 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <p>用 HTML 與 CSS 製作的第一個網站，也就是你現在看到的這一頁。</p>
         <span class="tag">HTML</span><span class="tag">CSS</span>
       </article>
-      <article class="card">
-        <h3>作品二：（待補）</h3>
-        <p>之後在課堂上完成的作業或專題，寫在這裡。</p>
-        <span class="tag">使用的技術</span>
-      </article>
+      <button class="card" id="openCourse" aria-haspopup="dialog">
+        <h3>數位科技概論：第二週作業</h3>
+        <p>HTML 活動 01–04 與 CSS 活動 05–09。點開查看每個活動的細項、預覽與完成進度。</p>
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">無障礙</span>
+        <div class="bar"><i id="cardBar"></i></div>
+        <p style="margin-top:6px;font-size:.85rem" id="cardCount">完成 0 / 9</p>
+      </button>
       <article class="card">
         <h3>作品三：（待補）</h3>
         <p>簡單說明你做了什麼、解決了什麼問題。</p>
@@ -107,5 +134,68 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   <div class="wrap">© 2026 你的名字．持續更新中</div>
 </footer>
 
+<dialog id="dlg" aria-labelledby="dtitle">
+  <div class="dhead">
+    <div>
+      <h3 id="dtitle">數位科技概論：第二週作業</h3>
+      <p>把 9 個活動放進 <code>activities/</code> 資料夾，就能在這裡預覽與連結。</p>
+      <div class="bar" style="width:240px"><i id="dlgBar"></i></div>
+      <p id="dlgCount">完成 0 / 9</p>
+    </div>
+    <button class="x" id="closeDlg">關閉</button>
+  </div>
+  <div class="dbody">
+    <ul class="acts" id="acts"></ul>
+    <div class="pane" id="pane"></div>
+  </div>
+</dialog>
+
+<script>
+/* ====== 想新增或修改活動，只要改這個清單 ====== */
+const ACTS=[
+ {id:"01",t:"文字層級",g:"HTML",f:"01-html-text.html",d:"用 h1–h3、p、b、i、sub、sup 標示文字的角色。",pts:["改名字與自我介紹","試試標題層級","加粗體、斜體、上下標","新增一個學習目標"],hw:"科學活動介紹頁"},
+ {id:"02",t:"多媒體",g:"HTML",f:"02-html-media.html",d:"用 img、audio、video 放入圖片、聲音與影片。",pts:["把花朵換成葉子","替聲音加播放按鈕","放進短片","故意改錯路徑再修回"],hw:"自然觀察任務卡",need:"另需同層的 <code>media-02/</code> 資料夾"},
+ {id:"03",t:"清單與表格",g:"HTML",f:"03-html-plan.html",d:"用 ul、ol、table 整理有先後與有欄位的資料。",pts:["清單加一項","步驟自動編號","修改表格格子","新增一整列"],hw:"紙橋挑戰社活動準備頁"},
+ {id:"04",t:"表單元件",g:"HTML",f:"04-html-form.html",d:"用 label、input、select、radio、checkbox、textarea 做練習用表單。",pts:["修改欄位名稱與提示","下拉選單新增選項","比較單選與複選","加大留言區"],hw:"放學後社團體驗表"},
+ {id:"05",t:"視覺風格",g:"CSS",f:"05-css-style.html",d:"改顏色、字級、留白與圓角，看同一份內容換一種風格。",pts:["改標題顏色","只改重點文字","調整卡片 padding、margin","讓內文好讀"]},
+ {id:"06",t:"整頁版型",g:"CSS",f:"06-css-layout.html",d:"比較單欄、兩欄、三欄與側欄版型，調整區域比例。",pts:["比較四個版型","調整導覽欄寬度","說明想要的版型","對照要求驗收"]},
+ {id:"07",t:"卡片排列",g:"CSS",f:"07-css-cards.html",d:"讓卡片等高、間距一致，圖片統一高度且不變形。",pts:["修改 gap 與 stretch","統一圖片高度","cover 與 contain","檢查長文字"],need:"另需同層的 <code>images/</code> 資料夾"},
+ {id:"08",t:"RWD 手機版",g:"CSS",f:"08-css-rwd.html",d:"寬畫面三欄、窄畫面單欄，欄位不超出。",pts:["縮窄視窗找問題","修正固定寬度","加入 @media","大小畫面都驗證"]},
+ {id:"09",t:"無障礙",g:"CSS",f:"09-css-accessibility.html",d:"用 WAVE 機檢，修正低對比與缺少標籤，再檢查鍵盤焦點。",pts:["第一次機檢","修正對比與 label","再機檢確認","鍵盤焦點與 200% 放大"],need:"WAVE 需輸入公開網址：<code>你的帳號.github.io/portfolio/activities/09-css-accessibility.html</code>"}
+];
+const DIR="activities/";
+let done={},cur=0;
+try{done=JSON.parse(localStorage.getItem("wk2-done")||"{}")}catch(e){}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem("wk2-done",JSON.stringify(done))}catch(e){}}
+function progress(){
+  const n=ACTS.filter(a=>done[a.id]).length,p=n/ACTS.length*100+"%";
+  $("cardBar").style.width=p;$("dlgBar").style.width=p;
+  $("cardCount").textContent=$("dlgCount").textContent="完成 "+n+" / "+ACTS.length;
+}
+function list(){
+  $("acts").innerHTML=ACTS.map((a,i)=>'<li><button data-i="'+i+'" aria-selected="'+(i===cur)+'">'+(done[a.id]?"✓ ":"")+a.id+" "+a.t+"<small>"+a.g+"</small></button></li>").join("");
+}
+function pane(){
+  const a=ACTS[cur],u=DIR+a.f;
+  $("pane").innerHTML=
+   "<h4>活動 "+a.id+"："+a.t+"（"+a.g+"）</h4><p>"+a.d+"</p>"+
+   "<ul>"+a.pts.map(x=>"<li>"+x+"</li>").join("")+"</ul>"+
+   (a.hw?"<p>小作業：<b>"+a.hw+"</b></p>":"")+
+   "<p>檔案位置：<code>"+u+"</code></p>"+(a.need?"<p>"+a.need+"</p>":"")+
+   '<div class="row"><a class="btn" href="'+u+'" target="_blank" rel="noopener">開新分頁看作品</a>'+
+   '<button class="btn" id="pv">載入預覽</button>'+
+   '<label><input type="checkbox" id="ck" '+(done[a.id]?"checked":"")+"> 我完成了</label></div>"+
+   '<div id="pvbox"></div>';
+  $("ck").onchange=e=>{done[a.id]=e.target.checked;save();progress();list()};
+  $("pv").onclick=()=>{$("pvbox").innerHTML='<iframe src="'+u+'" title="活動 '+a.id+' 預覽"></iframe><p>若空白或顯示 404，代表 <code>'+u+'</code> 還沒上傳。</p>'};
+}
+function show(i){cur=i;list();pane()}
+$("acts").onclick=e=>{const b=e.target.closest("button");if(b)show(+b.dataset.i)};
+$("openCourse").onclick=()=>{show(cur);$("dlg").showModal()};
+$("closeDlg").onclick=()=>$("dlg").close();
+$("dlg").onclick=e=>{if(e.target===$("dlg"))$("dlg").close()};
+progress();
+</script>
 </body>
 </html>

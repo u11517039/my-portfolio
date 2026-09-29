@@ -153,10 +153,10 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 <script>
 /* ====== 想新增或修改活動，只要改這個清單 ====== */
 const ACTS=[
- {id:"01",t:"文字層級",g:"HTML",f:"01-html-text.html",d:"用 h1–h3、p、b、i、sub、sup 標示文字的角色。",pts:["改名字與自我介紹","試試標題層級","加粗體、斜體、上下標","新增一個學習目標"],hw:"科學活動介紹頁"},
- {id:"02",t:"多媒體",g:"HTML",f:"02-html-media.html",d:"用 img、audio、video 放入圖片、聲音與影片。",pts:["把花朵換成葉子","替聲音加播放按鈕","放進短片","故意改錯路徑再修回"],hw:"自然觀察任務卡",need:"另需同層的 <code>media-02/</code> 資料夾"},
- {id:"03",t:"清單與表格",g:"HTML",f:"03-html-plan.html",d:"用 ul、ol、table 整理有先後與有欄位的資料。",pts:["清單加一項","步驟自動編號","修改表格格子","新增一整列"],hw:"紙橋挑戰社活動準備頁"},
- {id:"04",t:"表單元件",g:"HTML",f:"04-html-form.html",d:"用 label、input、select、radio、checkbox、textarea 做練習用表單。",pts:["修改欄位名稱與提示","下拉選單新增選項","比較單選與複選","加大留言區"],hw:"放學後社團體驗表"},
+ {id:"01",t:"文字層級",g:"HTML",f:"01-html-text-u11517039.html",d:"用 h1–h3、p、b、i、sub、sup 標示文字的角色。",pts:["改名字與自我介紹","試試標題層級","加粗體、斜體、上下標","新增一個學習目標"],hw:"科學活動介紹頁"},
+ {id:"02",t:"多媒體",g:"HTML",f:"02-html-media-u11517039.html",d:"用 img、audio、video 放入圖片、聲音與影片。",pts:["把花朵換成葉子","替聲音加播放按鈕","放進短片","故意改錯路徑再修回"],hw:"自然觀察任務卡",need:"已附上同層的 <code>media-03/</code> 資料夾（圖片、聲音、影片）"},
+ {id:"03",t:"清單與表格",g:"HTML",f:"03-html-plan-u11517039.html",d:"用 ul、ol、table 整理有先後與有欄位的資料。",pts:["清單加一項","步驟自動編號","修改表格格子","新增一整列"],hw:"紙橋挑戰社活動準備頁"},
+ {id:"04",t:"表單元件",g:"HTML",f:"04-html-form-u11517039.html",d:"用 label、input、select、radio、checkbox、textarea 做練習用表單。",pts:["修改欄位名稱與提示","下拉選單新增選項","比較單選與複選","加大留言區"],hw:"放學後社團體驗表"},
  {id:"05",t:"視覺風格",g:"CSS",f:"05-css-style.html",d:"改顏色、字級、留白與圓角，看同一份內容換一種風格。",pts:["改標題顏色","只改重點文字","調整卡片 padding、margin","讓內文好讀"]},
  {id:"06",t:"整頁版型",g:"CSS",f:"06-css-layout.html",d:"比較單欄、兩欄、三欄與側欄版型，調整區域比例。",pts:["比較四個版型","調整導覽欄寬度","說明想要的版型","對照要求驗收"]},
  {id:"07",t:"卡片排列",g:"CSS",f:"07-css-cards.html",d:"讓卡片等高、間距一致，圖片統一高度且不變形。",pts:["修改 gap 與 stretch","統一圖片高度","cover 與 contain","檢查長文字"],need:"另需同層的 <code>images/</code> 資料夾"},
@@ -164,8 +164,8 @@ const ACTS=[
  {id:"09",t:"無障礙",g:"CSS",f:"09-css-accessibility.html",d:"用 WAVE 機檢，修正低對比與缺少標籤，再檢查鍵盤焦點。",pts:["第一次機檢","修正對比與 label","再機檢確認","鍵盤焦點與 200% 放大"],need:"WAVE 需輸入公開網址：<code>你的帳號.github.io/portfolio/activities/09-css-accessibility.html</code>"}
 ];
 const DIR="activities/";
-let done={},cur=0;
-try{done=JSON.parse(localStorage.getItem("wk2-done")||"{}")}catch(e){}
+let done={"01":true,"02":true,"03":true,"04":true},cur=0;
+try{const v=localStorage.getItem("wk2-done");if(v)done=JSON.parse(v)}catch(e){}
 const $=id=>document.getElementById(id);
 function save(){try{localStorage.setItem("wk2-done",JSON.stringify(done))}catch(e){}}
 function progress(){
